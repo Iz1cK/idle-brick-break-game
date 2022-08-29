@@ -1,10 +1,10 @@
 function Ball(x, y, id) {
   this.x = x;
   this.y = y;
-  this.speedx = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : 2;
-  this.speedy = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : 2;
+  this.speedx = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : id == 3 ? 1.1 : 2;
+  this.speedy = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : id == 3 ? 1.1 : 2;
   this.speed = Math.sqrt(8);
-  this.power = id == 0 ? 5 : id == 1 ? 10 : id == 2 ? 1.5 : 5;
+  this.power = id == 0 ? 5 : id == 1 ? 10 : id == 2 ? 1.5 : id == 3 ? 0.39 : 5;
   this.id = id;
 
   this.show = () => {
@@ -19,6 +19,10 @@ function Ball(x, y, id) {
         break;
       case 2:
         fill(0, 255, 0);
+        break;
+      case 3:
+        fill(255, 255, 0);
+        break;
     }
     ellipse(this.x, this.y, 16, 16);
     this.x += this.speedx;
@@ -51,6 +55,7 @@ function Ball(x, y, id) {
       ) {
         console.log("right");
         this.speedx *= -1;
+        this.x += 5;
       } else if (
         this.x <= block.x &&
         this.y >= block.y &&
@@ -58,6 +63,7 @@ function Ball(x, y, id) {
       ) {
         console.log("left");
         this.speedx *= -1;
+        this.x -= 5;
       } else if (
         this.y <= block.y &&
         this.x >= block.x &&
@@ -65,6 +71,7 @@ function Ball(x, y, id) {
       ) {
         console.log("top");
         this.speedy *= -1;
+        this.y -= 5;
       } else if (
         this.y >= block.y &&
         this.x >= block.x &&
@@ -72,6 +79,7 @@ function Ball(x, y, id) {
       ) {
         console.log("bottom");
         this.speedy *= -1;
+        this.y += 5;
       }
       if (this.id == 0 || this.id == 1) {
         block.health -= Math.round(
@@ -80,6 +88,14 @@ function Ball(x, y, id) {
       }
       if (this.id == 2) {
         block.poisoned = true;
+      }
+      if (this.id == 3) {
+        document.getElementById("money").textContent =
+          "Money:" +
+          (parseInt(
+            document.getElementById("money").textContent.split(":")[1]
+          ) +
+            block.health * this.power);
       }
       if (block.health <= 0) {
         console.log(1, document.getElementById("money").textContent);

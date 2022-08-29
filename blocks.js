@@ -1,9 +1,9 @@
-function Block(x, y, width, height, id) {
+function Block(x, y, id) {
   this.x = x;
   this.y = y;
   this.id = id;
-  this.width = this.id == 0 ? 20 : this.id == 1 ? 32 : this.id == 2 ? 56 : 20;
-  this.height = this.id == 0 ? 12 : this.id == 1 ? 20 : this.id == 2 ? 35 : 12;
+  this.width = this.id == 0 ? 32 : this.id == 1 ? 56 : this.id == 2 ? 62 : 20;
+  this.height = this.id == 0 ? 20 : this.id == 1 ? 35 : this.id == 2 ? 38 : 12;
   this.alive = true;
   this.health =
     this.id == 0 ? 50 : this.id == 1 ? 200 : this.id == 2 ? 1000 : 50;
@@ -29,10 +29,10 @@ function Block(x, y, width, height, id) {
       drawingContext.shadowColor = this.color;
       textFont("Georgia");
       textAlign(CENTER);
-      rectMode(CENTER);
+      // rectMode(CENTER);
       fill(255);
       textSize(12);
-      text(this.health, this.x, this.y);
+      text(this.health, this.x + this.width / 2, this.y + this.height / 2);
     }
   };
 }

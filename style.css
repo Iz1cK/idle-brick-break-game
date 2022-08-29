@@ -2,7 +2,28 @@ html,
 body {
   margin: 0;
   padding: 0;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+button {
+  font-family: Georgia, "Times New Roman", Times, serif;
 }
 canvas {
   display: block;
+  margin: 0 auto;
+  margin-top: 20px;
+}
+.addBall {
+  width: 50px;
+  height: 50px;
+  background-color: rgb(2, 0, 51);
+  border: 1px solid rgb(8, 0, 255);
+  color: rgb(255, 255, 255);
+}
+
+.buttonsDiv {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
 }
