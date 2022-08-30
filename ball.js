@@ -1,10 +1,17 @@
-function Ball(x, y, id) {
+function Ball(
+  x,
+  y,
+  id,
+  sx = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : id == 3 ? 1.1 : 2,
+  sy = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : id == 3 ? 1.1 : 2,
+  pow = id == 0 ? 5 : id == 1 ? 10 : id == 2 ? 1.5 : id == 3 ? 0.39 : 5
+) {
   this.x = x;
   this.y = y;
-  this.speedx = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : id == 3 ? 1.1 : 2;
-  this.speedy = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : id == 3 ? 1.1 : 2;
+  this.speedx = sx;
+  this.speedy = sy;
   this.speed = Math.sqrt(8);
-  this.power = id == 0 ? 5 : id == 1 ? 10 : id == 2 ? 1.5 : id == 3 ? 0.39 : 5;
+  this.power = pow;
   this.id = id;
 
   this.show = () => {
@@ -53,7 +60,6 @@ function Ball(x, y, id) {
         this.y >= block.y &&
         this.y <= block.y + block.height
       ) {
-        console.log("right");
         this.speedx *= -1;
         this.x += 5;
       } else if (
@@ -61,7 +67,6 @@ function Ball(x, y, id) {
         this.y >= block.y &&
         this.y <= block.y + block.height
       ) {
-        console.log("left");
         this.speedx *= -1;
         this.x -= 5;
       } else if (
@@ -69,7 +74,6 @@ function Ball(x, y, id) {
         this.x >= block.x &&
         this.x <= block.x + block.width
       ) {
-        console.log("top");
         this.speedy *= -1;
         this.y -= 5;
       } else if (
@@ -77,7 +81,6 @@ function Ball(x, y, id) {
         this.x >= block.x &&
         this.x <= block.x + block.width
       ) {
-        console.log("bottom");
         this.speedy *= -1;
         this.y += 5;
       }
@@ -98,7 +101,6 @@ function Ball(x, y, id) {
             Math.round(block.health * this.power));
       }
       if (block.health <= 0) {
-        console.log(1, document.getElementById("money").textContent);
         document.getElementById("money").textContent =
           "Money:" +
           (parseInt(

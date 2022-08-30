@@ -17,22 +17,19 @@ function Block(x, y, id) {
       : this.color(0, 255, 0);
 
   this.show = () => {
-    if (this.alive) {
-      fill(25);
-      drawingContext.shadowBlur = 10;
-      drawingContext.shadowColor = this.color;
-      console.log(this.width, this.height, this.id);
-      stroke(this.color);
-      rect(this.x, this.y, this.width, this.height);
-      stroke(0);
-      drawingContext.shadowBlur = 0;
-      drawingContext.shadowColor = this.color;
-      textFont("Georgia");
-      textAlign(CENTER);
-      // rectMode(CENTER);
-      fill(255);
-      textSize(12);
-      text(this.health, this.x + this.width / 2, this.y + this.height / 2);
-    }
+    if (!this.alive) return;
+    fill(25);
+    drawingContext.shadowBlur = 10;
+    drawingContext.shadowColor = this.color;
+    stroke(this.color);
+    rect(this.x, this.y, this.width, this.height);
+    stroke(0);
+    drawingContext.shadowBlur = 0;
+    drawingContext.shadowColor = this.color;
+    textFont("Georgia");
+    textAlign(CENTER);
+    fill(255);
+    textSize(12);
+    text(this.health, this.x + this.width / 2, this.y + this.height / 2);
   };
 }
