@@ -95,7 +95,7 @@ function Ball(x, y, id) {
           (parseInt(
             document.getElementById("money").textContent.split(":")[1]
           ) +
-            block.health * this.power);
+            Math.round(block.health * this.power));
       }
       if (block.health <= 0) {
         console.log(1, document.getElementById("money").textContent);

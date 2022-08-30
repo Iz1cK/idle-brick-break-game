@@ -7,6 +7,14 @@ let addRedBall;
 let addGreenBall;
 let addWhiteBall;
 
+let speedUpRedBall;
+let speedUpGreenBall;
+let speedUpWhiteBall;
+
+let powerUpRedBall;
+let powerUpGreenBall;
+let powerUpWhiteBall;
+
 let moneyText;
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -53,7 +61,46 @@ function setup() {
     balls.push(new Ball(randomIntFromInterval(20, width - 20), 20, 0));
   });
   addWhiteBall.classList.add("addBall");
-  buttonsDiv.appendChild(addWhiteBall);
+
+  speedUpWhiteBall = document.createElement("button");
+  speedUpWhiteBall.textContent = "Speed Up White Ball";
+  speedUpWhiteBall.addEventListener("click", () => {
+    for (let i = 0; i < balls.length; i++) {
+      if (balls[i].id == 0) {
+        balls[i].speedx += balls[i].speedx > 0 ? 0.5 : -0.5;
+        balls[i].speedy += balls[i].speedy > 0 ? 0.5 : -0.5;
+      }
+    }
+  });
+
+  speedUpWhiteBall.classList.add("addBall");
+  speedUpGreenBall = document.createElement("button");
+  speedUpGreenBall.textContent = "Speed Up Green Ball";
+  speedUpGreenBall.addEventListener("click", () => {
+    for (let i = 0; i < balls.length; i++) {
+      if (balls[i].id == 2) {
+        balls[i].speedx += balls[i].speedx > 0 ? 0.5 : -0.5;
+        balls[i].speedy += balls[i].speedy > 0 ? 0.5 : -0.5;
+      }
+    }
+  });
+  speedUpGreenBall.classList.add("addBall");
+
+  speedUpRedBall = document.createElement("button");
+  speedUpRedBall.textContent = "Speed Up Red Ball";
+  speedUpRedBall.addEventListener("click", () => {
+    for (let i = 0; i < balls.length; i++) {
+      if (balls[i].id == 1) {
+        balls[i].speedx += balls[i].speedx > 0 ? 0.5 : -0.5;
+        balls[i].speedy += balls[i].speedy > 0 ? 0.5 : -0.5;
+      }
+    }
+  });
+  speedUpRedBall.classList.add("addBall");
+
+  buttonsDiv.appendChild(speedUpRedBall);
+  buttonsDiv.appendChild(speedUpGreenBall);
+  buttonsDiv.appendChild(speedUpWhiteBall);
 
   addRedBall = document.createElement("button");
   addRedBall.textContent = "Add Red Ball";
