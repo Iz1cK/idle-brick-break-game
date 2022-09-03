@@ -1,5 +1,76 @@
 var balls = [];
 var blocks = [];
+var ballTypes = [
+  { name: "white", id: 0 },
+  { name: "red", id: 1 },
+  { name: "green", id: 2 },
+  { name: "yellow", id: 3 },
+];
+function intializeFields() {
+  ballTypes.forEach((ball) => {
+    document.getElementById(`${ball.name}BallAmount`).textContent =
+      ball.id == 0 ? 1 : 0;
+    document.getElementById(`${ball.name}BallSpeed`).textContent =
+      ball.id == 0
+        ? 2
+        : ball.id == 1
+        ? 1
+        : ball.id == 2
+        ? 1.25
+        : ball.id == 3
+        ? 1.1
+        : 2;
+    document.getElementById(`${ball.name}BallPower`).textContent =
+      ball.id == 0
+        ? 5
+        : ball.id == 1
+        ? 10
+        : ball.id == 2
+        ? 1.5
+        : ball.id == 3
+        ? 0.39
+        : 5;
+    document
+      .getElementById(`${ball.name}BallsCount`)
+      .addEventListener("click", () => {
+        balls.push(generateBall(ball.id));
+        document.getElementById(`${ball.name}BallAmount`).textContent =
+          +document.getElementById(`${ball.name}BallAmount`).textContent + 1;
+        document.getElementById(`${ball.name}BallPrice`).textContent =
+          "$" +
+          (+document
+            .getElementById(`${ball.name}BallPrice`)
+            .textContent.split(`$`)[1] +
+            10);
+      });
+    document
+      .getElementById(`${ball.name}BallsSpeed`)
+      .addEventListener(`click`, () => {
+        document.getElementById(`${ball.name}BallSpeed`).textContent =
+          +document.getElementById(`${ball.name}BallSpeed`).textContent + 0.5;
+        document.getElementById(`${ball.name}BallSpeedPrice`).textContent =
+          `$` +
+          (+document
+            .getElementById(`${ball.name}BallSpeedPrice`)
+            .textContent.split(`$`)[1] +
+            10);
+        speedUpBall(ball.id);
+      });
+    document
+      .getElementById(`${ball.name}BallsPower`)
+      .addEventListener(`click`, () => {
+        powerUpBall(ball.id);
+        document.getElementById(`${ball.name}BallPowerPrice`).textContent =
+          `$` +
+          (+document
+            .getElementById(`${ball.name}BallPowerPrice`)
+            .textContent.split(`$`)[1] +
+            10);
+        document.getElementById(`${ball.name}BallPower`).textContent =
+          +document.getElementById(`${ball.name}BallPower`).textContent + 5;
+      });
+  });
+}
 
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -47,12 +118,7 @@ function setup() {
     blocks[i] = new Block(level[i].x, level[i].y, level[i].id);
   }
   money = 0;
-
-  document.getElementById("whiteBallsCount").addEventListener("click", () => {
-    balls.push(generateBall(0));
-    document.getElementById("whiteBallAmount").textContent =
-      +document.getElementById("whiteBallAmount").textContent + 1;
-  });
+  intializeFields();
 }
 
 function draw() {
