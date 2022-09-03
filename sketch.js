@@ -6,6 +6,8 @@ var ballTypes = [
   { name: "green", id: 2 },
   { name: "yellow", id: 3 },
 ];
+var money = 0;
+
 function intializeFields() {
   ballTypes.forEach((ball) => {
     document.getElementById(`${ball.name}BallAmount`).textContent =
@@ -33,7 +35,25 @@ function intializeFields() {
     document
       .getElementById(`${ball.name}BallsCount`)
       .addEventListener("click", () => {
+        if (
+          +document
+            .getElementById(`${ball.name}BallPrice`)
+            .textContent.split("$")[1] > money
+        ) {
+          return null;
+        }
         balls.push(generateBall(ball.id));
+        console.log(
+          document
+            .getElementById(`${ball.name}BallPrice`)
+            .textContent.split("$")[1]
+        );
+        document.getElementById("money").textContent =
+          "Money:" +
+          document.getElementById("money").textContent.split(":")[1] +
+          +document
+            .getElementById(`${ball.name}BallPrice`)
+            .textContent.split("$")[1];
         document.getElementById(`${ball.name}BallAmount`).textContent =
           +document.getElementById(`${ball.name}BallAmount`).textContent + 1;
         document.getElementById(`${ball.name}BallPrice`).textContent =
@@ -46,6 +66,18 @@ function intializeFields() {
     document
       .getElementById(`${ball.name}BallsSpeed`)
       .addEventListener(`click`, () => {
+        if (
+          +document
+            .getElementById(`${ball.name}BallSpeedPrice`)
+            .textContent.split("$")[1] > money
+        ) {
+          return null;
+        }
+        document.getElementById("money").textContent -=
+          "Money:" +
+          +document
+            .getElementById(`${ball.name}BallSpeedPrice`)
+            .textContent.split("$")[1];
         document.getElementById(`${ball.name}BallSpeed`).textContent =
           +document.getElementById(`${ball.name}BallSpeed`).textContent + 0.5;
         document.getElementById(`${ball.name}BallSpeedPrice`).textContent =
@@ -59,6 +91,18 @@ function intializeFields() {
     document
       .getElementById(`${ball.name}BallsPower`)
       .addEventListener(`click`, () => {
+        if (
+          +document
+            .getElementById(`${ball.name}BallPowerPrice`)
+            .textContent.split("$")[1] > money
+        ) {
+          return null;
+        }
+        document.getElementById("money").textContent -=
+          "Money:" +
+          +document
+            .getElementById(`${ball.name}BallPowerPrice`)
+            .textContent.split("$")[1];
         powerUpBall(ball.id);
         document.getElementById(`${ball.name}BallPowerPrice`).textContent =
           `$` +
@@ -110,19 +154,41 @@ function powerUpBall(id) {
 
 function setup() {
   createCanvas(848, 480);
-  // for (let i = 0; i < 1; i++) {
-  balls.push(generateBall(0));
-  // }
+  balls.push(new Ball(randomIntFromInterval(20, width - 20), 20, 0, 2, 2, 5));
   let level = blockCords[1];
   for (let i = 0; i < level.length; i++) {
     blocks[i] = new Block(level[i].x, level[i].y, level[i].id);
   }
-  money = 0;
+  document.getElementById("money").textContent = "Money:" + money;
   intializeFields();
+}
+
+function mousePressed() {
+  blocks.forEach((block) => {
+    if (!block.alive) return;
+    if (
+      mouseX >= block.x &&
+      mouseX <= block.x + block.width &&
+      mouseY >= block.y &&
+      mouseY <= block.y + block.height
+    ) {
+      block.health -= 1;
+      if (block.health <= 0) {
+        document.getElementById("money").textContent =
+          "Money:" +
+          (parseInt(
+            document.getElementById("money").textContent.split(":")[1]
+          ) +
+            10);
+        block.alive = false;
+      }
+    }
+  });
 }
 
 function draw() {
   background(25);
+  money = +document.getElementById("money").textContent.split(":")[1];
   for (let i = 0; i < blocks.length; i++) {
     blocks[i].show();
   }
@@ -137,4 +203,46 @@ function draw() {
       ball.checkCollides(block);
     }
   }
+
+  ballTypes.forEach((ball) => {
+    if (
+      +document
+        .getElementById(`${ball.name}BallPrice`)
+        .textContent.split("$")[1] > money
+    ) {
+      document
+        .getElementById(`${ball.name}BallsCount`)
+        .classList.add("cantAfford");
+    } else {
+      document
+        .getElementById(`${ball.name}BallsCount`)
+        .classList.remove("cantAfford");
+    }
+    if (
+      +document
+        .getElementById(`${ball.name}BallSpeedPrice`)
+        .textContent.split("$")[1] > money
+    ) {
+      document
+        .getElementById(`${ball.name}BallsSpeed`)
+        .classList.add("cantAfford");
+    } else {
+      document
+        .getElementById(`${ball.name}BallsSpeed`)
+        .classList.remove("cantAfford");
+    }
+    if (
+      +document
+        .getElementById(`${ball.name}BallPowerPrice`)
+        .textContent.split("$")[1] > money
+    ) {
+      document
+        .getElementById(`${ball.name}BallsPower`)
+        .classList.add("cantAfford");
+    } else {
+      document
+        .getElementById(`${ball.name}BallsPower`)
+        .classList.remove("cantAfford");
+    }
+  });
 }
