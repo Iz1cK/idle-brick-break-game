@@ -6,7 +6,7 @@ function Block(x, y, id) {
   this.height = this.id == 0 ? 20 : this.id == 1 ? 35 : this.id == 2 ? 38 : 12;
   this.alive = true;
   this.health =
-    this.id == 0 ? 50 : this.id == 1 ? 200 : this.id == 2 ? 1000 : 50;
+    this.id == 0 ? 10 : this.id == 1 ? 200 : this.id == 2 ? 1000 : 50;
   this.color =
     id == 0
       ? color(0, 255, 0)
