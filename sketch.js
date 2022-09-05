@@ -44,13 +44,17 @@ function powerUpBall(id) {
   }
 }
 
-function setup() {
-  createCanvas(848, 480);
-  balls.push(new Ball(randomIntFromInterval(20, width - 20), 20, 0, 2, 2, 5));
-  let level = blockCords[1];
+function setupLevel(id = 1) {
+  let level = blockCords[id];
   for (let i = 0; i < level.length; i++) {
     blocks[i] = new Block(level[i].x, level[i].y, level[i].id);
   }
+}
+
+function setup() {
+  createCanvas(848, 480);
+  balls.push(new Ball(randomIntFromInterval(20, width - 20), 20, 0, 2, 2, 5));
+  setupLevel();
   document.getElementById("money").textContent = "Money:" + money;
   intializeFields();
 }
@@ -81,7 +85,14 @@ function mousePressed() {
 function draw() {
   background(25);
   money = +document.getElementById("money").textContent.split(":")[1];
+  if (blocks.length == 0) {
+    setupLevel(0);
+  }
   for (let i = 0; i < blocks.length; i++) {
+    if (!blocks[i].alive) {
+      blocks.splice(i, 1);
+      continue;
+    }
     blocks[i].show();
   }
   for (let i = 0; i < balls.length; i++) {
