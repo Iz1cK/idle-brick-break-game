@@ -15,6 +15,7 @@ function Block(x, y, id) {
       : id == 2
       ? color(255, 0, 0)
       : this.color(0, 255, 0);
+  this.poisoned = false;
 
   this.show = () => {
     if (!this.alive) return;
@@ -22,6 +23,9 @@ function Block(x, y, id) {
     drawingContext.shadowBlur = 10;
     drawingContext.shadowColor = this.color;
     stroke(this.color);
+    if (this.poisoned) {
+      fill(40);
+    }
     rect(this.x, this.y, this.width, this.height);
     stroke(0);
     drawingContext.shadowBlur = 0;

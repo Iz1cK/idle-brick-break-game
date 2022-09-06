@@ -39,7 +39,20 @@ function speedUpBall(id) {
 function powerUpBall(id) {
   for (let i = 0; i < balls.length; i++) {
     if (balls[i].id == id) {
-      balls[i].power += 5;
+      switch (id) {
+        case 0:
+          balls[i].power += 5;
+          break;
+        case 1:
+          balls[i].power += 10;
+          break;
+        case 2:
+          balls[i].power += 0.5;
+          break;
+        case 3:
+          balls[i].power += 0.1;
+          break;
+      }
     }
   }
 }
@@ -85,6 +98,8 @@ function mousePressed() {
 function draw() {
   background(25);
   money = +document.getElementById("money").textContent.split(":")[1];
+  document.getElementById("allBallsCount").textContent =
+    "Ball Count:" + balls.length;
   if (blocks.length == 0) {
     setupLevel(0);
   }
