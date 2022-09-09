@@ -1,12 +1,8 @@
 var balls = [];
 var blocks = [];
-var ballTypes = [
-  { name: "white", id: 0 },
-  { name: "red", id: 1 },
-  { name: "green", id: 2 },
-  { name: "yellow", id: 3 },
-];
+
 var money = 0;
+const MAX_BALL_COUNT = 25;
 
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -37,9 +33,10 @@ function speedUpBall(id) {
 }
 
 function powerUpBall(id) {
+  let newPower = null;
   for (let i = 0; i < balls.length; i++) {
     if (balls[i].id == id) {
-      switch (id) {
+      switch (balls[i].id) {
         case 0:
           balls[i].power += 5;
           break;
@@ -54,7 +51,9 @@ function powerUpBall(id) {
           break;
       }
     }
+    newPower = balls[i].power;
   }
+  return newPower;
 }
 
 function setupLevel(id = 1) {
@@ -83,12 +82,7 @@ function mousePressed() {
     ) {
       block.health -= 1;
       if (block.health <= 0) {
-        document.getElementById("money").textContent =
-          "Money:" +
-          (parseInt(
-            document.getElementById("money").textContent.split(":")[1]
-          ) +
-            10);
+        money += 10;
         block.alive = false;
       }
     }
@@ -97,9 +91,9 @@ function mousePressed() {
 
 function draw() {
   background(25);
-  money = +document.getElementById("money").textContent.split(":")[1];
+  document.getElementById("money").textContent = "Money:" + money;
   document.getElementById("allBallsCount").textContent =
-    "Ball Count:" + balls.length;
+    "Balls:" + balls.length;
   if (blocks.length == 0) {
     setupLevel(0);
   }
@@ -113,14 +107,12 @@ function draw() {
   for (let i = 0; i < balls.length; i++) {
     balls[i].show();
   }
-  for (let m = 0; m < 5; m++) {
-    //checking for collisions 5 times per draw
-    for (let i = 0; i < balls.length; i++) {
-      for (let j = 0; j < blocks.length; j++) {
-        let block = blocks[j];
-        let ball = balls[i];
-        ball.checkCollides(block);
-      }
+  //checking for collisions 5 times per draw
+  for (let i = 0; i < balls.length; i++) {
+    for (let j = 0; j < blocks.length; j++) {
+      let block = blocks[j];
+      let ball = balls[i];
+      ball.checkCollides(block);
     }
   }
 
@@ -128,7 +120,8 @@ function draw() {
     if (
       +document
         .getElementById(`${ball.name}BallPrice`)
-        .textContent.split("$")[1] > money
+        .textContent.split("$")[1] > money ||
+      balls.length >= MAX_BALL_COUNT
     ) {
       document
         .getElementById(`${ball.name}BallsCount`)
@@ -141,7 +134,8 @@ function draw() {
     if (
       +document
         .getElementById(`${ball.name}BallSpeedPrice`)
-        .textContent.split("$")[1] > money
+        .textContent.split("$")[1] > money ||
+      ball.count == 0
     ) {
       document
         .getElementById(`${ball.name}BallsSpeed`)
@@ -154,7 +148,8 @@ function draw() {
     if (
       +document
         .getElementById(`${ball.name}BallPowerPrice`)
-        .textContent.split("$")[1] > money
+        .textContent.split("$")[1] > money ||
+      ball.count == 0
     ) {
       document
         .getElementById(`${ball.name}BallsPower`)

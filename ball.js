@@ -4,13 +4,12 @@ function Ball(
   id,
   sx = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : id == 3 ? 1.1 : 2,
   sy = id == 0 ? 2 : id == 1 ? 1 : id == 2 ? 1.25 : id == 3 ? 1.1 : 2,
-  pow = id == 0 ? 5 : id == 1 ? 10 : id == 2 ? 1.5 : id == 3 ? 0.39 : 5
+  pow = id == 0 ? 5 : id == 1 ? 10 : id == 2 ? 1.5 : id == 3 ? 0.1 : 5
 ) {
   this.x = x;
   this.y = y;
   this.speedx = sx;
   this.speedy = sy;
-  this.speed = Math.sqrt(8);
   this.power = pow;
   this.id = id;
 
@@ -93,20 +92,10 @@ function Ball(
         block.poisoned = true;
       }
       if (this.id == 3) {
-        document.getElementById("money").textContent =
-          "Money:" +
-          (parseInt(
-            document.getElementById("money").textContent.split(":")[1]
-          ) +
-            Math.round(block.health * this.power));
+        money += Math.round(block.health * this.power);
       }
       if (block.health <= 0) {
-        document.getElementById("money").textContent =
-          "Money:" +
-          (parseInt(
-            document.getElementById("money").textContent.split(":")[1]
-          ) +
-            this.power);
+        money += this.power;
         block.alive = false;
       }
     }
