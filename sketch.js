@@ -3,6 +3,7 @@ var blocks = [];
 
 var money = 0;
 const MAX_BALL_COUNT = 25;
+const formatter = Intl.NumberFormat("en", { notation: "compact" });
 
 function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -65,9 +66,9 @@ function setupLevel(id = 1) {
 
 function setup() {
   createCanvas(848, 480);
-  balls.push(new Ball(randomIntFromInterval(20, width - 20), 20, 0, 2, 2, 5));
+  // balls.push(new Ball(randomIntFromInterval(20, width - 20), 20, 0, 2, 2, 5));
   setupLevel();
-  document.getElementById("money").textContent = "Money:" + money;
+  document.getElementById("money").textContent = "Money:$" + money;
   intializeFields();
 }
 
@@ -91,7 +92,8 @@ function mousePressed() {
 
 function draw() {
   background(25);
-  document.getElementById("money").textContent = "Money:" + money;
+  document.getElementById("money").textContent =
+    "Money:$" + formatter.format(money);
   document.getElementById("allBallsCount").textContent =
     "Balls:" + balls.length;
   if (blocks.length == 0) {

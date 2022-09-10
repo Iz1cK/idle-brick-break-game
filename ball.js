@@ -60,28 +60,28 @@ function Ball(
         this.y <= block.y + block.height
       ) {
         this.speedx *= -1;
-        this.x += 5;
+        this.x += 4;
       } else if (
         this.x <= block.x &&
         this.y >= block.y &&
         this.y <= block.y + block.height
       ) {
         this.speedx *= -1;
-        this.x -= 5;
+        this.x -= 4;
       } else if (
         this.y <= block.y &&
         this.x >= block.x &&
         this.x <= block.x + block.width
       ) {
         this.speedy *= -1;
-        this.y -= 5;
+        this.y -= 4;
       } else if (
         this.y >= block.y &&
         this.x >= block.x &&
         this.x <= block.x + block.width
       ) {
         this.speedy *= -1;
-        this.y += 5;
+        this.y += 4;
       }
       if (this.id == 0 || this.id == 1) {
         block.health -= Math.round(
