@@ -12,10 +12,33 @@ function Ball(
   this.speedy = sy;
   this.power = pow;
   this.id = id;
+  this.history = [];
 
   this.show = () => {
     drawingContext.shadowBlur = 0;
     drawingContext.shadowColor = color(0, 0, 0);
+    noStroke();
+
+    if (this.history.length > 5) {
+      this.history.shift();
+    }
+    for (let i = 1; i < this.history.length; i++) {
+      switch (this.id) {
+        case 0:
+          fill(`rgba(255, 255, 255, ${i / 5})`);
+          break;
+        case 1:
+          fill(`rgba(255, 0, 0, ${i / 5})`);
+          break;
+        case 2:
+          fill(`rgba(0, 255, 0, ${i / 5})`);
+          break;
+        case 3:
+          fill(`rgba(255, 255, 0, ${i / 5})`);
+          break;
+      }
+      ellipse(this.history[i].x, this.history[i].y, 16, 16);
+    }
     switch (this.id) {
       case 0:
         fill(255);
@@ -31,8 +54,12 @@ function Ball(
         break;
     }
     ellipse(this.x, this.y, 16, 16);
+
     this.x += this.speedx;
     this.y += this.speedy;
+
+    this.history.push({ x: this.x, y: this.y });
+
     if (this.x >= width - 8 || this.x <= 8) {
       this.speedx *= -1;
     }
@@ -92,10 +119,10 @@ function Ball(
         block.poisoned = true;
       }
       if (this.id == 3) {
-        money += Math.round(block.health * this.power);
+        sketch.money += Math.round(block.health * this.power);
       }
       if (block.health <= 0) {
-        money += this.power;
+        sketch.money += this.power;
         block.alive = false;
       }
     }
